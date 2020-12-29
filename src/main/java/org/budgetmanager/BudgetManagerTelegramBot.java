@@ -15,7 +15,6 @@ public class BudgetManagerTelegramBot extends TelegramWebhookBot {
         this.telegramFacade = telegramFacade;
     }
 
-
     @Override
     public String getBotToken() {
         return botToken;
