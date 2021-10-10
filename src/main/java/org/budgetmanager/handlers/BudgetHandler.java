@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.budgetmanager.cache.UserDataCache;
 import org.budgetmanager.domain.Budget;
+import org.budgetmanager.dto.BudgetDto;
 import org.budgetmanager.enums.BotState;
 import org.budgetmanager.service.BudgetService;
 import org.springframework.stereotype.Component;
@@ -36,13 +37,13 @@ public class BudgetHandler implements InputMessageHandler {
         int userId = inputMsg.getFrom().getId();
         long chatId = inputMsg.getChatId();
         String usersAnswer = inputMsg.getText();
-        String name = userDataCache.getUserProfileData(userId);
+        BudgetDto budgetDto = userDataCache.getUserProfileData(userId);
 
         Budget budget = new Budget();
-        budget.setName(name);
+        budget.setName(budgetDto.getName());
         budget.setPrice(new BigDecimal(usersAnswer));
         budget.setCreated(LocalDateTime.now());
-        budget.setServiceType("Маникюр"); //заменить на отдельное заполнение в хэндлере с выбором типов
+        budget.setServiceType(budgetDto.getExpenseType().getName());
         budget.setServiceDate(LocalDateTime.now()); //заменить на выбор в календаре
         service.create(budget);
 

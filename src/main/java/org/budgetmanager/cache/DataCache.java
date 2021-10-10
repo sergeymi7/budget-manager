@@ -1,5 +1,6 @@
 package org.budgetmanager.cache;
 
+import org.budgetmanager.dto.BudgetDto;
 import org.budgetmanager.enums.BotState;
 
 public interface DataCache {
@@ -7,11 +8,6 @@ public interface DataCache {
 
     BotState getUsersCurrentBotState(int userId);
 
-    String getUserProfileData(int userId);
+    BudgetDto getUserProfileData(int userId);
 
-    void saveUserProfileData(int userId, String userProfileData);
-
-/*    UserProfileData getUserProfileData(int userId);
-
-    void saveUserProfileData(int userId, UserProfileData userProfileData);*/
-}
+    void saveUserProfileData(int userId, BudgetDto userProfileData);

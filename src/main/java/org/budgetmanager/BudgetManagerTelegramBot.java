@@ -36,7 +36,9 @@ public class BudgetManagerTelegramBot extends TelegramWebhookBot {
         SendMessage replyMessageToUser = telegramFacade.handleUpdate(update);
 
         if (replyMessageToUser == null) {
-            replyMessageToUser.setText("232323");
+            SendMessage message = new SendMessage();
+            message.setText("232323");
+            return message;
         }
 
         return replyMessageToUser;
