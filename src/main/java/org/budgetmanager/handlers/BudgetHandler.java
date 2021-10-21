@@ -43,7 +43,7 @@ public class BudgetHandler implements InputMessageHandler {
         budget.setName(budgetDto.getName());
         budget.setPrice(new BigDecimal(usersAnswer));
         budget.setCreated(LocalDateTime.now());
-        budget.setServiceType(budgetDto.getExpenseType().getName());
+        budget.setType(budgetDto.getType());
         budget.setServiceDate(LocalDateTime.now()); //заменить на выбор в календаре
         service.create(budget);
 

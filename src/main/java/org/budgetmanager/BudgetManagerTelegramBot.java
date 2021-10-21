@@ -33,7 +33,7 @@ public class BudgetManagerTelegramBot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        SendMessage replyMessageToUser = telegramFacade.handleUpdate(update);
+        BotApiMethod<?> replyMessageToUser = telegramFacade.handleUpdate(update);
 
         if (replyMessageToUser == null) {
             SendMessage message = new SendMessage();
