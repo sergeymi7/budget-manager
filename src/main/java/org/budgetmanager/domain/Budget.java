@@ -17,21 +17,20 @@ public class Budget {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @Column(name = "name")
     private String name;
-
     @Column(name = "type")
     private String type;
-
     @Column(name = "price")
     private BigDecimal price;
-
     @Column(name = "created")
     private LocalDateTime created;
-
+    @Column(name = "created_by")
+    private Integer createdBy;
     @Column(name = "service_date")
     private LocalDateTime serviceDate;
+    @Column(name = "comment")
+    private String comment;
 
     public Integer getId() {
         return id;
@@ -49,20 +48,20 @@ public class Budget {
         this.name = name;
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public LocalDateTime getCreated() {
@@ -73,11 +72,27 @@ public class Budget {
         this.created = created;
     }
 
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
+    }
+
     public LocalDateTime getServiceDate() {
         return serviceDate;
     }
 
     public void setServiceDate(LocalDateTime serviceDate) {
         this.serviceDate = serviceDate;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

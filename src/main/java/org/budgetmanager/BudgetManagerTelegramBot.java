@@ -37,7 +37,7 @@ public class BudgetManagerTelegramBot extends TelegramWebhookBot {
 
         if (replyMessageToUser == null) {
             SendMessage message = new SendMessage();
-            message.setText("232323");
+            message.setText("Текст для пустого reply");
             return message;
         }
 

@@ -7,7 +7,7 @@ import org.budgetmanager.cache.UserDataCache;
 import org.budgetmanager.domain.Budget;
 import org.budgetmanager.dto.BudgetDto;
 import org.budgetmanager.enums.BotState;
-import org.budgetmanager.service.BudgetService;
+import org.budgetmanager.repository.BudgetRepository;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -16,11 +16,11 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 public class BudgetHandler implements InputMessageHandler {
     private UserDataCache userDataCache;
-    private BudgetService service;
+    private BudgetRepository repository;
 
-    public BudgetHandler(UserDataCache userDataCache, BudgetService service) {
+    public BudgetHandler(UserDataCache userDataCache, BudgetRepository repository) {
         this.userDataCache = userDataCache;
-        this.service = service;
+        this.repository = repository;
     }
 
     @Override
@@ -44,8 +44,9 @@ public class BudgetHandler implements InputMessageHandler {
         budget.setPrice(new BigDecimal(usersAnswer));
         budget.setCreated(LocalDateTime.now());
         budget.setType(budgetDto.getType());
-        budget.setServiceDate(LocalDateTime.now()); //заменить на выбор в календаре
-        service.create(budget);
+        budget.setServiceDate(LocalDateTime.now()); //заменить на выбор в календаре может быть
+        budget.setCreatedBy(userId);
+        repository.save(budget);
 
         SendMessage replyToUser = new SendMessage(chatId, "Готово");
 

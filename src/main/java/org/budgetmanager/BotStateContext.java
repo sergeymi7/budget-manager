@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 /**
- * Defines message handlers for each state.
+ * Здесь собирается мапа хэндлеров и потом по BotState выбирается необходимый
  */
 @Component
 public class BotStateContext {
@@ -21,30 +21,9 @@ public class BotStateContext {
     }
 
     public SendMessage processInputMessage(BotState currentState, Message message) {
-        InputMessageHandler currentMessageHandler = findMessageHandler(currentState);
+        InputMessageHandler currentMessageHandler = messageHandlers.get(currentState);
         return currentMessageHandler.handle(message);
     }
-
-    private InputMessageHandler findMessageHandler(BotState currentState) {
-/*        if (isFillingProfileState(currentState)) {
-            return messageHandlers.get(BotState.SELECT_PROFIT_COST);
-        }*/
-
-        return messageHandlers.get(currentState);
-    }
-
-    private boolean isFillingProfileState(BotState currentState) {
-        switch (currentState) {
-            case ASK_COST:
-            case ASK_PROFIT:
-            case SELECT_PROFIT_COST:
-            case FILLED:
-                return true;
-            default:
-                return false;
-        }
-    }
-
 
 }
 
