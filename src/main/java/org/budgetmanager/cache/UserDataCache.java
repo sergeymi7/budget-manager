@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 public class UserDataCache implements DataCache {
     private Map<Integer, BotState> usersBotStates = new HashMap<>();
     private Map<Integer, BudgetDto> usersProfileData = new HashMap<>();
-    //private Map<Integer, UserProfileData> usersProfileData = new HashMap<>();
 
     @Override
     public void setUsersCurrentBotState(int userId, BotState botState) {

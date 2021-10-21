@@ -25,11 +25,9 @@ public class TelegramFacade {
     private BotStateContext botStateContext;
     private UserDataCache userDataCache;
     private final List<String> expenseTypes = Arrays.asList("Магазины", "Прочее", "Футбол", "Бензин", "Развлечения",
-                                                            "Одежда/обувь", "ЖКХ", "Интернет+ТВ", "Связь",
+                                                            "Одежда/обувь", "ЖКХ", "Интернет", "Связь",
                                                             "Непредвиденные", "Годовые расходы");
     private final List<String> profitTypes = Arrays.asList("Зарплата", "Прочее");
-
-    private static int i = 0;
 
     public TelegramFacade(BotStateContext botStateContext, UserDataCache userDataCache) {
         this.botStateContext = botStateContext;
@@ -39,15 +37,13 @@ public class TelegramFacade {
     public BotApiMethod<?> handleUpdate(Update update) {
         SendMessage replyMessage = null;
 
-        Message message = update.getMessage();
-
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
 
             return processCallbackQuery(callbackQuery);
         }
 
-
+        Message message = update.getMessage();
         if (message != null && message.hasText()) {
             replyMessage = handleInputMessage(message);
         }
@@ -75,8 +71,6 @@ public class TelegramFacade {
         SendMessage replyToUser = new SendMessage(chatId, "Введите тип:");
         replyToUser.setReplyMarkup(getInlineKeyboardMarkup());
         botStateContext.processInputMessage(botState, message); //запускает поиск хэндлеров
-       // replyMessage.setText("23123123");
-       // replyMessage.setChatId((long) userId);
 
         return replyToUser;
     }
@@ -195,9 +189,6 @@ public class TelegramFacade {
         return markup;
     }
 
-
-
-
     public InlineKeyboardMarkup getInlineKeyboardMarkup() {
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         InlineKeyboardButton buttonProfit = new InlineKeyboardButton().setText("Доход");
@@ -211,6 +202,5 @@ public class TelegramFacade {
 
         return markup;
     }
-
 
 }
