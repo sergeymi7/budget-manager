@@ -20,4 +20,15 @@ public enum ExpenseType {
     public void setName(String name) {
         this.name = name;
     }
+
+    public static ExpenseType convert(String type) {
+
+        for (ExpenseType expenseType : ExpenseType.values()) {
+            if (expenseType.getName().equals(type)) {
+                return expenseType;
+            }
+        }
+
+        return null;
+    }
 }

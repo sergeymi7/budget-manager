@@ -1,12 +1,11 @@
 package org.budgetmanager.dto;
 
 import java.math.BigDecimal;
-import org.budgetmanager.enums.ExpenseType;
 
 public class BudgetDto {
 
     private String name;
-    private ExpenseType expenseType;
+    private String type;
     private BigDecimal value;
 
     public BigDecimal getValue() {
@@ -25,11 +24,11 @@ public class BudgetDto {
         this.name = name;
     }
 
-    public ExpenseType getExpenseType() {
-        return expenseType;
+    public String getType() {
+        return type;
     }
 
-    public void setExpenseType(ExpenseType expenseType) {
-        this.expenseType = expenseType;
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -21,8 +21,8 @@ public class Budget {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "service_type")
-    private String serviceType;
+    @Column(name = "type")
+    private String type;
 
     @Column(name = "price")
     private BigDecimal price;
@@ -57,12 +57,12 @@ public class Budget {
         this.price = price;
     }
 
-    public String getServiceType() {
-        return serviceType;
+    public String getType() {
+        return type;
     }
 
-    public void setServiceType(String serviceType) {
-        this.serviceType = serviceType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public LocalDateTime getCreated() {

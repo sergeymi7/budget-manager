@@ -5,6 +5,7 @@ import static org.budgetmanager.enums.BotState.FILL_EXPENSE;
 import static org.budgetmanager.enums.BotState.MARKET;
 import static org.budgetmanager.enums.BotState.OTHER;
 
+import java.math.BigDecimal;
 import org.budgetmanager.cache.UserDataCache;
 import org.budgetmanager.dto.BudgetDto;
 import org.budgetmanager.enums.BotState;
@@ -55,24 +56,24 @@ public class CostTypeHandler implements InputMessageHandler {
         if (botState.equals(MARKET)) {
             replyToUser = new SendMessage(chatId, "Введите доход:");
             userDataCache.setUsersCurrentBotState(userId, FILLED);
-            budgetDto.setExpenseType(ExpenseType.MARKET);
+            budgetDto.setType(ExpenseType.MARKET.getName());
             userDataCache.saveUserProfileData(userId, budgetDto);
         }
 
         if (botState.equals(OTHER)) {
             replyToUser = new SendMessage(chatId, "Введите расход:");
             userDataCache.setUsersCurrentBotState(userId, FILLED);
-            budgetDto.setExpenseType(ExpenseType.OTHER);
+            budgetDto.setType(ExpenseType.OTHER.getName());
             userDataCache.saveUserProfileData(userId, budgetDto);
         }
 
-/*        if (botState.equals(FILLED)) {
+        if (botState.equals(FILLED)) {
             budgetDto.setValue(new BigDecimal(usersAnswer));
             userDataCache.saveUserProfileData(userId, budgetDto);
             userDataCache.setUsersCurrentBotState(userId, BotState.BEGIN);
 
             //replyToUser = new SendMessage(chatId, "Готово");
-        }*/
+        }
 
         return replyToUser;
     }
