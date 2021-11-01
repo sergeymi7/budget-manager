@@ -1,6 +1,7 @@
 package org.budgetmanager;
 
 import static org.budgetmanager.enums.BotState.FILLED;
+import static org.budgetmanager.enums.BotState.FILL_COMMENT;
 import static org.budgetmanager.enums.BotState.FILL_EXPENSE;
 
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.budgetmanager.cache.UserDataCache;
 import org.budgetmanager.dto.BudgetDto;
 import org.budgetmanager.enums.BotState;
+import org.budgetmanager.handlers.SaveBudgetService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -22,16 +24,20 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 @Component
 @Slf4j
 public class TelegramFacade {
-    private BotStateContext botStateContext;
-    private UserDataCache userDataCache;
+    private final BotStateContext botStateContext;
+    private final UserDataCache userDataCache;
+    private final SaveBudgetService saveBudgetService;
+
     private final List<String> expenseTypes = Arrays.asList("Магазины", "Прочее", "Футбол", "Бензин", "Развлечения",
                                                             "Одежда/обувь", "ЖКХ", "Интернет", "Связь",
                                                             "Непредвиденные", "Годовые расходы");
     private final List<String> profitTypes = Arrays.asList("Зарплата", "Прочее");
 
-    public TelegramFacade(BotStateContext botStateContext, UserDataCache userDataCache) {
+    public TelegramFacade(BotStateContext botStateContext, UserDataCache userDataCache,
+                          SaveBudgetService saveBudgetService) {
         this.botStateContext = botStateContext;
         this.userDataCache = userDataCache;
+        this.saveBudgetService = saveBudgetService;
     }
 
     public BotApiMethod<?> handleUpdate(Update update) {
@@ -67,10 +73,12 @@ public class TelegramFacade {
         }
 
         userDataCache.setUsersCurrentBotState(userId, botState);
+        SendMessage replyToUser = botStateContext.processInputMessage(botState, message); //запускает поиск хэндлеров
 
-        SendMessage replyToUser = new SendMessage(chatId, "Введите тип:");
-        replyToUser.setReplyMarkup(getInlineKeyboardMarkup());
-        botStateContext.processInputMessage(botState, message); //запускает поиск хэндлеров
+        if (replyToUser == null) {
+            replyToUser = new SendMessage(chatId, "Введите тип:");
+            replyToUser.setReplyMarkup(getInlineKeyboardMarkup());
+        }
 
         return replyToUser;
     }
@@ -82,7 +90,6 @@ public class TelegramFacade {
         BotApiMethod<?> replyToUser = null;
         SendMessage sendMessage = null;
 
-       // BotState botState = userDataCache.getUsersCurrentBotState(userId);
         BudgetDto newBudgetDto = new BudgetDto();
 
         String buttonData = buttonQuery.getData();
@@ -130,6 +137,17 @@ public class TelegramFacade {
             userDataCache.setUsersCurrentBotState(userId, FILLED);
             budgetDto.setType(findType);
             userDataCache.saveUserProfileData(userId, budgetDto);
+        }
+
+        if (buttonData.equals("ДаКомментарий")) {
+            sendMessage = new SendMessage(chatId, "Введите комментарий:");
+            userDataCache.setUsersCurrentBotState(userId, FILL_COMMENT);
+        }
+
+        if (buttonData.equals("НетКомментарий")) {
+            saveBudgetService.save(userId, chatId);
+            sendMessage = new SendMessage(chatId, "Введите тип:");
+            sendMessage.setReplyMarkup(getInlineKeyboardMarkup());
         }
 
         replyToUser = sendMessage;

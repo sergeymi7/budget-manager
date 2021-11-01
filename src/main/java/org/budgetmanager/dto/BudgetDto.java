@@ -7,6 +7,7 @@ public class BudgetDto {
     private String name;
     private String type;
     private BigDecimal value;
+    private String comment;
 
     public BigDecimal getValue() {
         return value;
@@ -30,5 +31,13 @@ public class BudgetDto {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

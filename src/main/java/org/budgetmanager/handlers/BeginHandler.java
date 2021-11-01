@@ -37,8 +37,6 @@ public class BeginHandler implements InputMessageHandler {
 
         SendMessage replyToUser = new SendMessage(chatId, "Введите тип:");
         replyToUser.setReplyMarkup(getInlineKeyboardMarkup());
-        userDataCache.setUsersCurrentBotState(userId, BotState.SELECT_PROFIT_COST);
-
         return replyToUser;
     }
 
@@ -55,9 +53,4 @@ public class BeginHandler implements InputMessageHandler {
 
         return markup;
     }
-
-
 }
-
-
-
