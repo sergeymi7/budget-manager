@@ -1,8 +1,6 @@
 spring:
   datasource:
-    url: 'jdbc:postgresql://localhost:5432/beauty'
     username: postgres
-    password: 481516
   jpa.properties.hibernate.temp.use_jdbc_metadata_defaults: false
 
 server:
@@ -10,5 +8,7 @@ server:
 
 telegrambot:
   userName: '@Sergo4Bot'
-  botToken: '1426876410:AAEnI-02xC8WmHm292rhLlV7j0TCl9QpEL8'
-  webHookPath: https://d78a-176-214-22-134.ngrok.io
+
+pingtask:
+  url: https://www.google.com
+  period: 1200000
